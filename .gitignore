@@ -1,0 +1,4 @@
+subreddit/*.pyc
+*.csv
+*.json
+subreddit/spiders/*.pyc
