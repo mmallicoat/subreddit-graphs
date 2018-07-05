@@ -16,10 +16,11 @@ class QuotesSpider(scrapy.Spider):
 
         for sidebar in response.css('div.venmmj-0'):
             yield {
-              'subreddit': re.search(r'r/\w+', response.request.url).group(),
+              'subreddit': re.search(r'/r/\w+', response.request.url).group(),
               'description': sidebar.css('p.s1smssg-14::text').extract_first(),
-              # subscriber_count
-              # online_count
+              # TODO: change link strings to lowercase to match subreddit names
+              'links': response.css('div.venmmj-0 a::attr(href)').re('/r/\w+'),
+              'subscribers': sidebar.css('p.s1smssg-12::text').extract_first(),
             }
 
         # List is of relative urls to subreddits, e.g., u'/r/finance/'
