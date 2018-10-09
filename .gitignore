@@ -1,4 +1,4 @@
-subreddit/*.pyc
+subscraper/*.pyc
 *.csv
 *.json
-subreddit/spiders/*.pyc
+subscraper/spiders/*.pyc

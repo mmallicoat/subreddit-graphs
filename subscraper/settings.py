@@ -9,14 +9,14 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'subreddit'
+BOT_NAME = 'subscraper'
 
-SPIDER_MODULES = ['subreddit.spiders']
-NEWSPIDER_MODULE = 'subreddit.spiders'
+SPIDER_MODULES = ['subscraper.spiders']
+NEWSPIDER_MODULE = 'subscraper.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'subreddit (+http://www.yourdomain.com)'
+USER_AGENT = 'MM (+http://www.marshallmallicoat.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
