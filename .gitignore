@@ -2,3 +2,4 @@
 subscraper/*.pyc
 subscraper/spiders/*.pyc
 examples/*
+visualization/*.png

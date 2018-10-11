@@ -8,7 +8,7 @@ import pdb
 def main():
     mpl.use('TkAgg')  # set back-end
 
-    with open('./data/fin_2hop_fix.json') as f:
+    with open('./data/prog_2hop.json') as f:
         docs = json.load(f)
 
     G = nx.Graph()
@@ -20,15 +20,17 @@ def main():
                 G.add_edge(doc['subreddit'], link)
 
     # Plot graph
-    # nx.draw(G, with_labels=True)
+    nx.draw(G, with_labels=True)
     # mpl.pyplot.show()
 
     # Save graph images
-    # mpl.pyplot.savefig("graph.png")
+    mpl.pyplot.savefig("./visualization/prog-graph.png")
 
+
+def convert(G):
     # Export graph in JSON node-link format
     data = json_graph.node_link_data(G)
-    with open('./data/fin-data-link.json', 'w') as outfile:
+    with open('./data/data-link.json', 'w') as outfile:
         json.dump(data, outfile)
 
 

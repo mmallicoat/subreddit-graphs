@@ -4,16 +4,18 @@ Notes
 Todo
 ----
 
-* When exporting graph via networkx library, include subscriber
-  number as an attribute of each node
-* In graph visualizer, add a function so that the subcriber number
-  can be used to change the size of the node
+* Write up
+* Embed visualizations in write-up
 
 
 Done
 ````
 * Use regex to covert subscriber numbers to a numeric
 * Convert subreddit links to lower case in spider?
+* When exporting graph via networkx library, include subscriber
+  number as an attribute of each node
+* In graph visualizer, add a function so that the subcriber number
+  can be used to change the size of the node
 
 Scrapy
 ------
