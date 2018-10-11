@@ -8,7 +8,7 @@ import pdb
 def main():
     mpl.use('TkAgg')  # set back-end
 
-    with open('../finindep_fix.json') as f:
+    with open('./data/fin_2hop_fix.json') as f:
         docs = json.load(f)
 
     G = nx.Graph()
@@ -28,7 +28,7 @@ def main():
 
     # Export graph in JSON node-link format
     data = json_graph.node_link_data(G)
-    with open('finindep-subs-data-link.json', 'w') as outfile:
+    with open('./data/fin-data-link.json', 'w') as outfile:
         json.dump(data, outfile)
 
 

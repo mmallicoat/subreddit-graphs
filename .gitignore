@@ -1,5 +1,4 @@
-subscraper/*.pyc
-*.csv
-*.json
-subscraper/spiders/*.pyc
 .DS_Store
+subscraper/*.pyc
+subscraper/spiders/*.pyc
+examples/*
