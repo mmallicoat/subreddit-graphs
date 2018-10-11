@@ -2,3 +2,4 @@ subscraper/*.pyc
 *.csv
 *.json
 subscraper/spiders/*.pyc
+.DS_Store

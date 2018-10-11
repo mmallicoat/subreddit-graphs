@@ -4,9 +4,16 @@ Notes
 Todo
 ----
 
+* When exporting graph via networkx library, include subscriber
+  number as an attribute of each node
+* In graph visualizer, add a function so that the subcriber number
+  can be used to change the size of the node
+
+
+Done
+````
 * Use regex to covert subscriber numbers to a numeric
 * Convert subreddit links to lower case in spider?
-* Use subscriber number to determine size of node in graph plot
 
 Scrapy
 ------
@@ -44,6 +51,17 @@ Examples using the Node.JS `d3-hierarchy library <https://github.com/d3/d3-hiera
 - Interactive `force-directed graph <https://bl.ocks.org/mbostock/4062045>`__
 - `Adjacency matrix <https://bost.ocks.org/mike/miserables/>`__
 - Very nice `radial tree <https://bl.ocks.org/mbostock/4063550>`__
+- Code for `tidy tree
+  <https://gist.github.com/mbostock/4339184>`__ previous,
+  or maybe from `here <https://gist.github.com/mbostock/912735>`__.
+- Tools at `Observable <https://beta.observablehq.com/>`__
+
+Documentation
+
+- `d3-force library <https://github.com/d3/d3-force>`__
+- networkx can `exports to JSON
+  <https://networkx.github.io/documentation/networkx-1.10/reference/readwrite.json_graph.html>`__
+  in format suitable for d3 visualizations
 
 Selectors
 ---------

@@ -6,8 +6,8 @@ import pdb
 class QuotesSpider(scrapy.Spider):
     name = 'subspider'
     start_urls = [
-        'https://www.reddit.com/r/programming',
-        # 'https://www.reddit.com/r/financialindependence',
+        # 'https://www.reddit.com/r/programming',
+        'https://www.reddit.com/r/financialindependence',
     ]
 
     def parse(self, response):

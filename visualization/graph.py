@@ -1,4 +1,5 @@
 import networkx as nx
+from networkx.readwrite import json_graph
 import matplotlib as mpl
 import json
 import pdb
@@ -7,21 +8,28 @@ import pdb
 def main():
     mpl.use('TkAgg')  # set back-end
 
-    with open('out.json') as f:
+    with open('../finindep_fix.json') as f:
         docs = json.load(f)
 
     G = nx.Graph()
 
     for doc in docs[0:80]:
-        G.add_node(doc['subreddit'])
+        G.add_node(doc['subreddit'], subscribers=doc['subscribers'])
         for link in doc['links']:
             if doc['subreddit'] != link:
                 G.add_edge(doc['subreddit'], link)
 
-    nx.draw(G, with_labels=True)
-    mpl.pyplot.show()
+    # Plot graph
+    # nx.draw(G, with_labels=True)
+    # mpl.pyplot.show()
 
-    pdb.set_trace()
+    # Save graph images
+    # mpl.pyplot.savefig("graph.png")
+
+    # Export graph in JSON node-link format
+    data = json_graph.node_link_data(G)
+    with open('finindep-subs-data-link.json', 'w') as outfile:
+        json.dump(data, outfile)
 
 
 if __name__ == '__main__':
