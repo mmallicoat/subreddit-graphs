@@ -17,6 +17,17 @@ Done
 * In graph visualizer, add a function so that the subcriber number
   can be used to change the size of the node
 
+d3
+--
+
+``d3.json()`` makes an HTTP request to the local directory (?) to
+get the data files. When serving the visualization HTML file using
+the Python ``SimpleHTTPServer``, I can see the HTTP request and
+the JSON file is correctly loaded. I should be able to simply put
+the data on the web server with the HTML page with the
+visualization and have it displayed correctly. (The d3 Javascript
+code is also queried by an HTTP request.)
+
 Scrapy
 ------
 
@@ -37,7 +48,9 @@ Scrapy
 References
 ----------
 
-- `Tutorial <https://doc.scrapy.org/en/latest/intro/tutorial.html>`__
+-   `Tutorial <https://doc.scrapy.org/en/latest/intro/tutorial.html>`__
+-   Structure of project from `here
+    <https://drivendata.github.io/cookiecutter-data-science/#directory-structure>`__.
 
 Features
 ---------
