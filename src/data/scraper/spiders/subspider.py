@@ -18,7 +18,7 @@ class QuotesSpider(scrapy.Spider):
                             sidebar.css('p.s34nhbn-12::text').extract_first()
                         )
             links = list()
-            for link in response.css('div.s1s8pi67-0 a::attr(href)').re('/r/\w+'):
+            for link in response.css('div.s1s8pi67-0 a::attr(href)').re(r'/r/\w+'):
                 links.append(link.lower())
             yield {
               'subreddit': re.search(r'/r/\w+', response.request.url).group().lower(),
@@ -28,7 +28,7 @@ class QuotesSpider(scrapy.Spider):
             }
 
         # List is of relative urls to subreddits, e.g., u'/r/foobar/'
-        for sub in response.css('div.s1s8pi67-0 a::attr(href)').re('/r/\w+'):
+        for sub in response.css('div.s1s8pi67-0 a::attr(href)').re(r'/r/\w+'):
             yield response.follow(sub.lower(), callback=self.parse)
 
 def subscriber_conversion(subscriber_string):

@@ -4,8 +4,12 @@ Notes
 Todo
 ----
 
-* Write up
-* Embed visualizations in write-up
+* Fix: change format_data.py to take both input and output filenames
+  as arguments, and then write directly
+* After this, make sure visualizations work
+* Write up report, embedding visualizations
+* Get scrapy working again
+* Do some simple network analyses/metrics
 
 
 Done

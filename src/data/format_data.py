@@ -4,19 +4,21 @@ import json
 import os
 import sys
 
-def main(inputfile):
+def main(argv):
+
+    inputfile = argv[1]
+    outputfile = argv[2]
 
     # Find project root directory
     script_dir = os.path.dirname(__file__)
     proj_dir = os.path.abspath(os.path.join(script_dir, '../..'))
-    
+        
     # Read in and convert
     graph = convert(os.path.join(proj_dir, inputfile))
-
+    
     # Export JSON
-    return graph
-    # with open(os.path.join(proj_dir, outputfile), 'w') as f:
-        # json.dump(graph, f)
+    with open(os.path.join(proj_dir, outputfile), 'w') as f:
+        json.dump(graph, f)
 
 def convert(filepath):
 
@@ -38,5 +40,4 @@ def convert(filepath):
 
 
 if __name__ == '__main__':
-    inputfile = sys.argv[1]
-    main(inputfile)
+    main(sys.argv)
