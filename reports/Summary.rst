@@ -94,7 +94,9 @@ made a couple plots using ``matplotlib`` to visualize the graphs.
 Unfortunately, these were difficult to read and not very useful
 for exploring the networks. To remedy this, I decided to instead
 use the visualization library ``d3`` (written in Javascript) to
-make some interactive plots.
+make some interactive plots. (We convert the network data into the
+"data-link" format using ``networkx`` since this format can be
+easily read in by ``d3``.)
 
 Click on the images below to view the interactive plots.
 
@@ -116,19 +118,124 @@ collapse.
 Analysis
 --------
 
+Density
+```````
+
+The two networks have a low average degree [TODO: define] per
+node, both around 1.3.
+
+The graph *density* is also low. [Define.]
+
+
+Centrality
+``````````
+
 Using ``networkx``, we can also calculate metrics which helps us
-to better understand the network. One of the foremost metrics is
-[centrality???]: this expresses the XXX of each node with respect
-to the larger network. The values calculated are:
+to better understand the network. One property of nodes in a
+network that we are interested in is their centrality. The metric
+of *betweenness centrality* is one way of calculating this.
+The betweenness centrality of a node is the proportion of
+shortness paths between any (other?) two nodes that pass through
+it. Spoke nodes will have low values and hubs high values.
 
-[table]
+The most central nodes in the financial network are:
 
-Not surprisingly, the XXX node(s) have the largest values.
+============================    =========================
+Subreddit                	Betweenness Centrality
+============================    =========================
+/r/frugal			0.63
+/r/buildapc			0.48
+/r/collapse			0.31
+/r/gamedeals			0.29
+/r/simpleliving			0.26
+/r/canadianhardwareswap		0.24
+/r/zerowaste			0.19
+/r/meditation			0.17
+/r/steam			0.14
+/r/buildapcsales		0.12
+/r/financialindependence	0.12
+============================    =========================
+
+/r/frugal and /r/buildapc are central because they act as a bridge
+between the financial branch of the network and the PC/gaming
+branch. Because of this, many shortest paths must pass through
+them. /r/frugal also unites the main hubs in the financial branch,
+/r/collapse, /r/zerowaste, /r/simpleliving, and
+/r/financialindependence.
+
+/r/collapse is the hub of many small subreddits that are not
+linked to any other nodes.
+
+/r/gamedeals is a bridge from the PC-building sub-branch and the
+gaming sub-branch.
+
+Clustering
+``````````
+
+Another metric for network analysis is the *clustering
+coefficient.*
+
+The *degree* of a node is the number of nodes it is connected to.
+Suppose there is a node *u* with degree *n*. A *triangle* is a
+sub-graph of three nodes that are each connected to each other.
+The maximum possible of triangles including *u* is *n* choose 2,
+or *n \* (n - 1) / 2*. The number of existing triangles including
+node *u* is divided by this maximum number. So, the clustering
+coefficient will always be between 0 and 1. It can be interpretted
+as the [appropriateness of grouping the node with the others it is
+connected to].
+
+Any node that is only connected to a single other node will always
+have a clustering coefficient of 0. If all of a node's neighboring
+nodes are connected, then the node will have a clustering
+coefficient of 1.
+
+Most of the nodes in our two networks are spokes only connected to
+a single hub node and will have a clustering cofficient of 0.
+Nodes with coefficients much larger than 0 are more rare.  This is
+perhaps not surprising given that these are sparse graphs.
+
+The nodes in the programming network with the highest clustering
+coefficients are:
+
+=============================   =========================
+Subreddit			Clustering Coefficient
+=============================   =========================
+/r/programmerhumor		1.00
+/r/cseducation			1.00
+/r/computerscience		1.00
+/r/cryptocurrencymemes		1.00
+/r/compsci			1.00
+/r/freelance			1.00
+/r/cs_questions			1.00
+/r/resumes			1.00
+/r/coding			1.00
+/r/javascript			1.00
+/r/experienceddevs		1.00
+/r/learnprogramming		0.67
+=============================   =========================
+
+[Maybe add a column for the degree of each node to get a better
+picture?]
+
+Many of these have very few neighbors, such as /r/programmerhumor.
+
+/r/cseducation, /r/computerscience, and /r/cs_questions are share
+the same two neighbors: /r/csmajors and /r/cscareerquestions.
+These are all concerned with educational and career concerns.
 
 Conclusion
 ----------
 
-A more extensive network could be constructed by crawling the
-actual posts on each messageboard and collecting hyperlinks given
-there. The number of links to each subreddit could be tabulated in
-order to measure the *strength* of each link in the network.
+There is much room for expansion on this sort of anlysis. A more
+extensive network could be constructed by crawling the actual
+posts on each messageboard and collecting hyperlinks given there.
+Links to webpages outside of reddit.com could also be crawled.
+The number of links between webpages could be tabulated in order
+to measure the *strength* of each link in the network. Instead of
+an undirected graph, the direction of the links could be
+incorporated into the model.
+
+Network anlysis can give insights into the organization of a
+network...
+
