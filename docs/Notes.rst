@@ -5,14 +5,15 @@ Todo
 ----
 
 * Write up report, embedding visualizations
-* Get scrapy working again; add this to Makefile
 
 Won't Do
 ````````
-* Somehow toggle labels on JS plots? [M
+* Somehow toggle labels on JS plots?
+* Add scrapy to Makefile
 
 Done
 ````
+* Get scrapy working again
 * Fix: change format_data.py to take both input and output filenames
   as arguments, and then write directly.
   After this, make sure visualizations work.
