@@ -1,3 +1,0 @@
-Nodes: 191
-Edges: 241
-Average degree: 1.26178010471
