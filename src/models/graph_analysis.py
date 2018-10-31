@@ -10,7 +10,7 @@ def main(argv):
     graphfile = os.path.abspath(argv[1])
     statsdir = os.path.abspath(argv[2])
 
-    # Load data-link data and build graph
+    # Load node-link data and build graph
     graphdata = json.load(open(graphfile, 'r'))
     G = nx.node_link_graph(graphdata)
 
@@ -21,7 +21,8 @@ def main(argv):
     # Crude statistics
     N, K = G.order(), G.size()
     avg_deg = float(K) / N
-    density = 2 * float(K) / (N * (N - 1))
+    # density = 2 * float(K) / (N * (N - 1))
+    density = nx.density(G)
     with open(os.path.join(statsdir, model + '-stats.txt'), 'w') as f:
         f.write("Nodes: %s\n" % N)
         f.write("Edges: %s\n" % K)
@@ -31,17 +32,21 @@ def main(argv):
 
     # Clustering coefficient
     nodes = nx.clustering(G)
-    df = pd.DataFrame.from_dict(nodes, orient='index', columns=['coeff'])
+    df = pd.DataFrame.from_dict(nodes, orient='index',
+                                columns=['coeff'])
     df.sort_values(by='coeff', inplace=True, ascending=False)
-    df['coeff'] = df['coeff'].apply(lambda x: round(x, 2))  # round values
+    df['coeff'] = df['coeff'].apply(lambda x: round(x, 2))
+    df['edges'] = df.index.map(G.degree)
     df.to_csv(os.path.join(statsdir, model + '-clustering.csv'),
               index_label='subreddit')
 
     # Betweenness centrality
     nodes = nx.betweenness_centrality(G)
-    df = pd.DataFrame.from_dict(nodes, orient='index', columns=['centrality'])
+    df = pd.DataFrame.from_dict(nodes, orient='index',
+                                columns=['centrality'])
     df.sort_values(by='centrality', inplace=True, ascending=False)
     df['centrality'] = df['centrality'].apply(lambda x: round(x, 2))
+    df['edges'] = df.index.map(G.degree)
     df.to_csv(os.path.join(statsdir, model + '-centrality.csv'),
               index_label='subreddit')
     

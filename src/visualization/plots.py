@@ -9,7 +9,7 @@ def main(argv):
     graphfile = os.path.abspath(argv[1])
     outputdir = os.path.abspath(argv[2])
 
-    # Load data-link data and build graph
+    # Load node-link data and build graph
     graphdata = json.load(open(graphfile, 'r'))
     G = nx.node_link_graph(graphdata)
 

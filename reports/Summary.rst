@@ -9,19 +9,17 @@ The popular website reddit.com contains numerous messageboards
 such as a hobby or topic of interest. Often the users of these
 subreddits will place links to related subreddits on the sidebar
 of the webpage. In this way, these linked subreddits form a
-network of related online communities. By following these links
-programmatically, we can quickly collect the data which represents
-these network, which we can then use to visualize and analyze
-them.
-
-These human-curated lists of links give high-quality indicators of
-related topics and communities.
+network of closely related online communities.  Because these
+lists of links are human-curated, they give high-quality
+indicators of related topics and communities.  By following these
+links programmatically, we can collect the data needed to to
+visualize and analyze these networks.
 
 Scrape the Data
 ---------------
 
-I wrote simple web scraper using the Python library ``scrapy`` to
-collect the list of links nad other information from each
+I wrote simple web scraper using the Python library ``scrapy``
+which collects the list of links and other information from each
 subreddit page. Starting from an initial subreddit, the scraper
 searches the sidebar on the page for any related subreddits that
 have been linked there. The scraper then follows those links and
@@ -30,13 +28,14 @@ collected, along with its description, number of subscribers, and
 the list of links to other subreddits.
 
 From these data, it is possible to construct the network of
-subreddits centered at the initial page. In this network (or
-graph), each node is a subreddit and each edge is a hyperlink
-between them. For simplicity, I decided to build a non-directed
-graph, treating a hyperlink from subreddit A to B in the same
-manner as a hyperlink from subreddit B to A.
+subreddits surrounding the initial page. In this network (often
+called a *graph* in mathematics), each node is a subreddit and
+each edge is a hyperlink between them. For simplicity, I decided
+to build a non-directed graph, ignoring the directionality of
+hyperlinks: a hyperlink from subreddit A to B is treated in the
+same manner as a hyperlink from subreddit B to A.
 
-The spider uses CSS selectors to locate the desired elements on
+The scraper uses CSS selectors to locate the desired elements on
 each webpage. Here is a code snippet with the selectors:
 
 .. code:: python
@@ -55,13 +54,13 @@ each webpage. Here is a code snippet with the selectors:
           'subscribers': sub_count
         }
 
-The sidebar on the page is idenitified using the method
+The sidebar on the page is identified using the method
 ``response.css('div.s1s8pi67-0')`` where ``response`` is the
 object representing the returned webpage. The string
-``s1s8pi67-0`` is the unique class attribute (?) of the ``div``
-element containing the sidebar. [#selectors]_ The name of the subreddit, the
-subreddit's description, the list of links in the sidebar, and the
-number of subscribers are returned by the spider.
+``s1s8pi67-0`` is a unique class of the ``div`` element containing
+the sidebar. [#selectors]_ The scaper returns the name of the
+subreddit, the subreddit's description, the list of links in the
+sidebar, and the number of subscribers.
 
 I chose two subreddits to use as the starting points to crawl
 through related pages: ``/r/programming`` and
@@ -69,19 +68,20 @@ through related pages: ``/r/programming`` and
 subreddits listed in their sidebars, which should lead to larger,
 more complex networks.
 
-.. [#selectors] (Using these seemingly random class attributes (?) for the
-    selectors is less than ideal: they are non-semantic and they seem
-    to change fairly frequently, possibly with each build of the
-    website. A refinement to find a more robust selector. I think it
-    would be possible to use an xpath selector to find the text
-    ``/r/[subreddit name]`` that appears in the sidebar, and then
-    select the element contianing this a few steps up the hierarchy.)
+.. [#selectors] Using these seemingly random attribute values for
+    the selectors is less than ideal: they are non-semantic and they
+    seem to change fairly frequently, possibly with each build of the
+    website. An improvement woudl be to find a more robust selector. I
+    think it would be possible to use an XPath selector to find the
+    text ``/r/[subreddit name]`` that appears in the sidebar, and then
+    select the document element containing this a few steps up the
+    hierarchy.
 
 Visualizations
 --------------
 
 After collecting the network data, we can use the library
-``networkx`` to analyze and visualize the networks. Quickly, I
+``networkx`` to visualize and analyze the networks. I quickly
 made a couple plots using ``matplotlib`` to visualize the graphs.
 
 .. figure:: ./figures/prog-graph.png
@@ -92,40 +92,58 @@ made a couple plots using ``matplotlib`` to visualize the graphs.
    Plot of the network centered at the subreddit /r/programming
 
 Unfortunately, these were difficult to read and not very useful
-for exploring the networks. To remedy this, I decided to instead
-use the visualization library ``d3`` (written in Javascript) to
-make some interactive plots. (We convert the network data into the
-"data-link" format using ``networkx`` since this format can be
-easily read in by ``d3``.)
+for exploring the networks. To remedy this, I decided to use the
+visualization library ``d3`` (written in JavaScript) to make some
+interactive plots. After we convert the network data into the
+"node-link" JSON format using ``networkx``, we can read it into a
+HTML file containing JavaScript visualizations.
 
 Click on the images below to view the interactive plots.
 
-The relative number of subscribers to each subreddit is
-represented by the radius of the node in this chart (using a
+.. Insert here images linking to the interactive plots
+
+In these charts, the relative number of subscribers to each
+subreddit is represented by the radius of the node (using a
 log-scale).
 
-One of the most salient features is the "spoke-and-hub" pattern: a
-larger subreddit links to many smaller subreddits, which are often
-dedicated to a more specific topic. For example,
+One of the most salient features is the "spoke-and-hub" structure:
+a larger subreddit links to many smaller subreddits, which are
+often dedicated to a more specific topic. For example,
 /r/financialindependence is linked to country-specific subreddits
-for Canada (/r/canadaFIRE ?), UK (/r/ukfire), and so on.
+for Canada (/r/canadaFIRE ?), UK (/r/ukfire), and so on.  These
+can often be sensibly grouped into a cluster of nodes based on
+their subject matter. An example of this is the the closely
+related subreddits surrounding /r/collapse which are all dedicated
+to the topic of societal and economic collapse.
 
-It is sensible to group clusters of nodes into larger structures:
-the closely related group of a subreddits surrounding /r/collapse
-(?) are all dedicated to the topic of societal and economic
-collapse.
+.. TODO: clarify which subreddits
+
 
 Analysis
 --------
 
-Density
-```````
+Average Degree and Density
+``````````````````````````
 
-The two networks have a low average degree [TODO: define] per
-node, both around 1.3.
+One descriptive statistic of a graph is the *average degree*.  The
+degree of a node is the number of edges connected to it. The
+average degree of a graph is simply the average of the degrees of
+each of its nodes. These two networks have low average degrees,
+both around 1.3. This is a consequence of the structure of these
+networks: there are a small number of "hub" nodes that have links
+to a large number of "spoke" nodes, which have few links. As a
+result, most of the nodes are "spoke" nodes, usually only having a
+single edge. This lack of connections is also shown in another
+metric, the *graph density*.  
 
-The graph *density* is also low. [Define.]
-
+Graph density is defined as the ratio of the number of edges to
+the total possible number of edges between the nodes. The total
+possible would be achieved if every node was connected to every
+other node. For a graph with *n* nodes, this would result in *n*
+choose 2 or *n \* (n - 1) / 2* edges. The density thus varies from
+0 (in a graph with no edges) to 1 (in a graph with every possible
+edge). The densities of the financial and programming graphs are
+0.01 and 0.04, respectivity, so they have low density.
 
 Centrality
 ``````````
@@ -135,39 +153,41 @@ to better understand the network. One property of nodes in a
 network that we are interested in is their centrality. The metric
 of *betweenness centrality* is one way of calculating this.
 The betweenness centrality of a node is the proportion of
-shortness paths between any (other?) two nodes that pass through
-it. Spoke nodes will have low values and hubs high values.
+shortest paths between any other two nodes that pass through
+it. "Spoke" nodes will have low values and "hubs" high values.
 
 The most central nodes in the financial network are:
 
-============================    =========================
-Subreddit                	Betweenness Centrality
-============================    =========================
-/r/frugal			0.63
-/r/buildapc			0.48
-/r/collapse			0.31
-/r/gamedeals			0.29
-/r/simpleliving			0.26
-/r/canadianhardwareswap		0.24
-/r/zerowaste			0.19
-/r/meditation			0.17
-/r/steam			0.14
-/r/buildapcsales		0.12
-/r/financialindependence	0.12
-============================    =========================
+============================    ========================= ========
+Subreddit                	Betweenness Centrality    Edges
+============================    ========================= ========
+/r/frugal			0.63                      27
+/r/buildapc			0.48                      11
+/r/collapse			0.31                      35
+/r/gamedeals			0.29                      14
+/r/simpleliving			0.26                      18
+/r/canadianhardwareswap		0.24                      14
+/r/zerowaste			0.19                      16
+/r/meditation			0.17                      9
+/r/steam			0.14                      10
+/r/buildapcsales		0.12                      4
+/r/financialindependence	0.12                      15
+============================    ========================= ========
 
 /r/frugal and /r/buildapc are central because they act as a bridge
-between the financial branch of the network and the PC/gaming
-branch. Because of this, many shortest paths must pass through
-them. /r/frugal also unites the main hubs in the financial branch,
+between the network's two main branches: one focused on financial
+matters and the other focused on computer building and gaming.
+Because of this, many shortest paths must pass through them.
+/r/frugal also unites the main hubs in the financial branch,
 /r/collapse, /r/zerowaste, /r/simpleliving, and
 /r/financialindependence.
 
-/r/collapse is the hub of many small subreddits that are not
-linked to any other nodes.
+/r/collapse is a hub for many small subreddits that are not
+linked to any other nodes. Any path from one of these nodes to
+another other must necessarily pass through /r/collapse,
+contributing to its high centrality.
 
-/r/gamedeals is a bridge from the PC-building sub-branch and the
-gaming sub-branch.
+.. TODO: proof-read below
 
 Clustering
 ``````````
@@ -175,15 +195,15 @@ Clustering
 Another metric for network analysis is the *clustering
 coefficient.*
 
-The *degree* of a node is the number of nodes it is connected to.
-Suppose there is a node *u* with degree *n*. A *triangle* is a
-sub-graph of three nodes that are each connected to each other.
-The maximum possible of triangles including *u* is *n* choose 2,
-or *n \* (n - 1) / 2*. The number of existing triangles including
-node *u* is divided by this maximum number. So, the clustering
-coefficient will always be between 0 and 1. It can be interpretted
-as the [appropriateness of grouping the node with the others it is
-connected to].
+As explained above, the degree of a node is the number of nodes it
+is connected to. Suppose there is a node *u* with degree *n*. A
+*triangle* is a sub-graph of three nodes that are each connected
+to each other. The maximum possible of triangles including *u* is
+*n* choose 2, or *n \* (n - 1) / 2*. The number of existing
+triangles including node *u* is divided by this maximum number.
+So, the clustering coefficient will always be between 0 and 1. It
+can be interpreted as the [appropriateness of grouping the node
+with the others it is connected to].
 
 Any node that is only connected to a single other node will always
 have a clustering coefficient of 0. If all of a node's neighboring
@@ -191,43 +211,43 @@ nodes are connected, then the node will have a clustering
 coefficient of 1.
 
 Most of the nodes in our two networks are spokes only connected to
-a single hub node and will have a clustering cofficient of 0.
+a single hub node and will have a clustering coefficient of 0.
 Nodes with coefficients much larger than 0 are more rare.  This is
 perhaps not surprising given that these are sparse graphs.
 
 The nodes in the programming network with the highest clustering
 coefficients are:
 
-=============================   =========================
-Subreddit			Clustering Coefficient
-=============================   =========================
-/r/programmerhumor		1.00
-/r/cseducation			1.00
-/r/computerscience		1.00
-/r/cryptocurrencymemes		1.00
-/r/compsci			1.00
-/r/freelance			1.00
-/r/cs_questions			1.00
-/r/resumes			1.00
-/r/coding			1.00
-/r/javascript			1.00
-/r/experienceddevs		1.00
-/r/learnprogramming		0.67
-=============================   =========================
+=============================   =========================  ======
+Subreddit			Clustering Coefficient     Edges
+=============================   =========================  ======
+/r/programmerhumor		1.00                       2
+/r/cseducation			1.00                       2
+/r/computerscience		1.00                       2
+/r/cryptocurrencymemes		1.00                       2
+/r/compsci			1.00                       3
+/r/freelance			1.00                       2
+/r/cs_questions			1.00                       2
+/r/resumes			1.00                       2
+/r/coding			1.00                       3
+/r/javascript			1.00                       2
+/r/experienceddevs		1.00                       2
+/r/learnprogramming		0.67                       4
+/r/jobs         		0.33                       3
+=============================   =========================  ======
 
-[Maybe add a column for the degree of each node to get a better
-picture?]
+Many of these have only two or three few neighbors, so the
+clustering coefficient of 1 is less significant. In contrast,
+/r/csmajors has a coefficient of only 0.17, but it has 12
+neighbors: out of the 66 possible triangles, 11 of them are fully
+connected. This subreddit may be more of a cluster than many of
+those in the list above.
 
-Many of these have very few neighbors, such as /r/programmerhumor.
-
-/r/cseducation, /r/computerscience, and /r/cs_questions are share
-the same two neighbors: /r/csmajors and /r/cscareerquestions.
-These are all concerned with educational and career concerns.
 
 Conclusion
 ----------
 
-There is much room for expansion on this sort of anlysis. A more
+There is much room for expansion on this sort of analysis. A more
 extensive network could be constructed by crawling the actual
 posts on each messageboard and collecting hyperlinks given there.
 Links to webpages outside of reddit.com could also be crawled.
@@ -236,6 +256,6 @@ to measure the *strength* of each link in the network. Instead of
 an undirected graph, the direction of the links could be
 incorporated into the model.
 
-Network anlysis can give insights into the organization of a
+Network analysis can give insights into the organization of a
 network...
 

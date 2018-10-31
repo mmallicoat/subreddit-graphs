@@ -40,7 +40,7 @@ var size = function(d) {
     }
 }
 
-d3.json("../../data/processed/prog-data-link.json", function(error, graph) {
+d3.json("../../data/processed/prog-node-link.json", function(error, graph) {
   if (error) throw error;
 
   var link = svg.append("g")
