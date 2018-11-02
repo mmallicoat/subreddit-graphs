@@ -107,17 +107,14 @@ subreddit is represented by the radius of the node (using a
 log-scale).
 
 One of the most salient features is the "spoke-and-hub" structure:
-a larger subreddit links to many smaller subreddits, which are
-often dedicated to a more specific topic. For example,
+a larger subreddit links to many smaller subreddits, which
+are often dedicated to a more specific topic. For example,
 /r/financialindependence is linked to country-specific subreddits
-for Canada (/r/canadaFIRE ?), UK (/r/ukfire), and so on.  These
-can often be sensibly grouped into a cluster of nodes based on
-their subject matter. An example of this is the the closely
-related subreddits surrounding /r/collapse which are all dedicated
-to the topic of societal and economic collapse.
-
-.. TODO: clarify which subreddits
-
+for Canada (/r/personalfinancecanada), UK (/r/ukpersonalfinance),
+and so on. These can often be sensibly grouped into a cluster of
+nodes based on their subject matter. An example of this is the
+closely related subreddits surrounding /r/collapse which are all
+dedicated to the topic of societal and economic collapse.
 
 Analysis
 --------
@@ -125,7 +122,7 @@ Analysis
 Average Degree and Density
 ``````````````````````````
 
-One descriptive statistic of a graph is the *average degree*.  The
+One descriptive statistic of a graph is the *average degree*. The
 degree of a node is the number of edges connected to it. The
 average degree of a graph is simply the average of the degrees of
 each of its nodes. These two networks have low average degrees,
@@ -143,7 +140,7 @@ other node. For a graph with *n* nodes, this would result in *n*
 choose 2 or *n \* (n - 1) / 2* edges. The density thus varies from
 0 (in a graph with no edges) to 1 (in a graph with every possible
 edge). The densities of the financial and programming graphs are
-0.01 and 0.04, respectivity, so they have low density.
+0.01 and 0.04, respectively, so they have low density.
 
 Centrality
 ``````````
@@ -187,33 +184,27 @@ linked to any other nodes. Any path from one of these nodes to
 another other must necessarily pass through /r/collapse,
 contributing to its high centrality.
 
-.. TODO: proof-read below
-
 Clustering
 ``````````
 
-Another metric for network analysis is the *clustering
-coefficient.*
+Another metric for describing a network is the *clustering
+coefficient.* Before we define this, first define a *triangle* as
+a sub-graph of three nodes that are all connected to each other.
+Suppose we have a node *u* with degree *n*. The maximum possible
+of triangles including *u* is *n* choose 2, or *n \* (n - 1) / 2*.
+The clustering coefficient is the number of existing triangles
+including node *u* divided by this maximum possible number.
+So, this coefficient will always be between 0 and 1. It can be
+interpreted as the tendency of a node to cluster with other nodes.
+Any node that is only connected to a single other node will always have
+a clustering coefficient of 0. If all of a node's neighboring nodes are
+connected, then the node will have a clustering coefficient of 1.
 
-As explained above, the degree of a node is the number of nodes it
-is connected to. Suppose there is a node *u* with degree *n*. A
-*triangle* is a sub-graph of three nodes that are each connected
-to each other. The maximum possible of triangles including *u* is
-*n* choose 2, or *n \* (n - 1) / 2*. The number of existing
-triangles including node *u* is divided by this maximum number.
-So, the clustering coefficient will always be between 0 and 1. It
-can be interpreted as the [appropriateness of grouping the node
-with the others it is connected to].
-
-Any node that is only connected to a single other node will always
-have a clustering coefficient of 0. If all of a node's neighboring
-nodes are connected, then the node will have a clustering
-coefficient of 1.
-
-Most of the nodes in our two networks are spokes only connected to
-a single hub node and will have a clustering coefficient of 0.
-Nodes with coefficients much larger than 0 are more rare.  This is
-perhaps not surprising given that these are sparse graphs.
+Most of the nodes in our two networks are spokes connected only to
+a single hub node and thus will have a clustering coefficient of
+0. Nodes with coefficients significantly larger than 0 are more
+rare in these networks. This is perhaps not surprising given that
+these are sparse graphs.
 
 The nodes in the programming network with the highest clustering
 coefficients are:
@@ -238,24 +229,24 @@ Subreddit			Clustering Coefficient     Edges
 
 Many of these have only two or three few neighbors, so the
 clustering coefficient of 1 is less significant. In contrast,
-/r/csmajors has a coefficient of only 0.17, but it has 12
+while /r/csmajors has a coefficient of only 0.17, it has 12
 neighbors: out of the 66 possible triangles, 11 of them are fully
-connected. This subreddit may be more of a cluster than many of
-those in the list above.
+connected. This subreddit be part of something closer to a cluster
+than many of nodes with a clustering coefficient of 1.
 
-
-Conclusion
+Next Steps
 ----------
 
-There is much room for expansion on this sort of analysis. A more
-extensive network could be constructed by crawling the actual
-posts on each messageboard and collecting hyperlinks given there.
-Links to webpages outside of reddit.com could also be crawled.
-The number of links between webpages could be tabulated in order
-to measure the *strength* of each link in the network. Instead of
-an undirected graph, the direction of the links could be
-incorporated into the model.
+There is much room for expansion on this sort of analysis. Some
+further avenues to explore are:
 
-Network analysis can give insights into the organization of a
-network...
-
+    1. A more extensive network could be constructed by crawling the
+    actual posts on each messageboard and collecting hyperlinks given
+    there. Links to webpages outside of reddit.com could also be
+    crawled.
+    
+    2. The number of links between webpages could be tabulated in
+    order to measure the *strength* of each link in the network.
+    
+    3. Instead of an undirected graph, the direction of the links
+    could be incorporated into the model.
