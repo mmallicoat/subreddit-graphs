@@ -1,5 +1,8 @@
-Analyzing Subreddit Networks
-============================
+:date: 2018-11-02
+:modified: 2018-11-06
+:title: Analyzing Subreddit Networks
+:category: Projects
+:slug: subreddit-networks
 
 Introduction
 ------------
@@ -9,11 +12,15 @@ The popular website reddit.com contains numerous messageboards
 such as a hobby or topic of interest. Often the users of these
 subreddits will place links to related subreddits on the sidebar
 of the webpage. In this way, these linked subreddits form a
-network of closely related online communities.  Because these
+network of closely related online communities. Because these
 lists of links are human-curated, they give high-quality
-indicators of related topics and communities.  By following these
+indicators of related topics and communities. By following these
 links programmatically, we can collect the data needed to to
 visualize and analyze these networks.
+
+All of the code for this project can be found on Github_.
+
+.. _Github: https://github.com/mmallicoat/subreddit-graphs
 
 Scrape the Data
 ---------------
@@ -63,10 +70,16 @@ subreddit, the subreddit's description, the list of links in the
 sidebar, and the number of subscribers.
 
 I chose two subreddits to use as the starting points to crawl
-through related pages: ``/r/programming`` and
-``/r/financialindependence``. Both of these have a fair number of
-subreddits listed in their sidebars, which should lead to larger,
-more complex networks.
+through related pages, which results in two networks for analysis:
+
+1. one centered at /r/programming, which I will refer
+   to as the "programming network"
+2. one centered at /r/financialindependence, which I
+   will refer to as the "financial network."
+
+Both of these initial subreddits have a fair number of links
+listed in their sidebars, which should lead to larger, more
+complex networks.
 
 .. [#selectors] Using these seemingly random attribute values for
     the selectors is less than ideal: they are non-semantic and they
@@ -84,12 +97,9 @@ After collecting the network data, we can use the library
 ``networkx`` to visualize and analyze the networks. I quickly
 made a couple plots using ``matplotlib`` to visualize the graphs.
 
-.. figure:: ./figures/prog-graph.png
-   :scale: 75 %
+.. figure:: ./media/prog-graph.png
    :alt: network centered as /r/programming
    :align: center
-
-   Plot of the network centered at the subreddit /r/programming
 
 Unfortunately, these were difficult to read and not very useful
 for exploring the networks. To remedy this, I decided to use the
@@ -100,7 +110,19 @@ HTML file containing JavaScript visualizations.
 
 Click on the images below to view the interactive plots.
 
-.. Insert here images linking to the interactive plots
+.. figure:: ./media/fin-force-label.jpg
+   :alt: network centered as /r/financialindependence
+   :align: center
+   :target: html/fin-force.html
+
+   Plot of the network centered at the subreddit /r/financialindependence
+
+.. figure:: ./media/prog-force-label.jpg
+   :alt: network centered as /r/programming
+   :align: center
+   :target: html/prog-force.html
+
+   Plot of the network centered at the subreddit /r/programming
 
 In these charts, the relative number of subscribers to each
 subreddit is represented by the radius of the node (using a
@@ -136,8 +158,8 @@ metric, the *graph density*.
 Graph density is defined as the ratio of the number of edges to
 the total possible number of edges between the nodes. The total
 possible would be achieved if every node was connected to every
-other node. For a graph with *n* nodes, this would result in *n*
-choose 2 or *n \* (n - 1) / 2* edges. The density thus varies from
+other node. For a graph with *n* nodes, this would result in *n
+choose 2* or *n \* (n - 1) / 2* edges. The density thus varies from
 0 (in a graph with no edges) to 1 (in a graph with every possible
 edge). The densities of the financial and programming graphs are
 0.01 and 0.04, respectively, so they have low density.
@@ -191,7 +213,7 @@ Another metric for describing a network is the *clustering
 coefficient.* Before we define this, first define a *triangle* as
 a sub-graph of three nodes that are all connected to each other.
 Suppose we have a node *u* with degree *n*. The maximum possible
-of triangles including *u* is *n* choose 2, or *n \* (n - 1) / 2*.
+of triangles including *u* is *n choose 2*, or *n \* (n - 1) / 2*.
 The clustering coefficient is the number of existing triangles
 including node *u* divided by this maximum possible number.
 So, this coefficient will always be between 0 and 1. It can be

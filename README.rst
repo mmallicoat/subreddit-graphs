@@ -1,7 +1,10 @@
 Subreddit Graphs
 ================
 
-This is the beginning of an analysis of networks of related
-"sub-reddits" on reddit.com. I have crawled Reddit to discover the
-relationships and build a graph. I have developed some
-visualization. I plan to do some analysis of the graph.
+This project contains code for scraping subreddits on reddit.com
+for links to related subreddits. The resulting network is then
+visualized and some graph analysis is performed.
+
+The write-up can be found at
+`<http://marshallmallicoat.com/subreddit-networks.html>`_ or in
+``reports/subreddit-networks.rst``.
