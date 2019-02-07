@@ -1,5 +1,5 @@
 :date: 2018-11-02
-:modified: 2018-11-06
+:modified: 2018-11-12
 :title: Analyzing Subreddit Networks
 :category: Projects
 :slug: subreddit-networks
@@ -18,7 +18,7 @@ indicators of related topics and communities. By following these
 links programmatically, we can collect the data needed to to
 visualize and analyze these networks.
 
-All of the code for this project can be found on Github_.
+The code for this project can be found on Github_.
 
 .. _Github: https://github.com/mmallicoat/subreddit-graphs
 
@@ -97,7 +97,7 @@ After collecting the network data, we can use the library
 ``networkx`` to visualize and analyze the networks. I quickly
 made a couple plots using ``matplotlib`` to visualize the graphs.
 
-.. figure:: ./media/prog-graph.png
+.. figure:: ./figures/prog-graph.png
    :alt: network centered as /r/programming
    :align: center
 
@@ -110,14 +110,14 @@ HTML file containing JavaScript visualizations.
 
 Click on the images below to view the interactive plots.
 
-.. figure:: ./media/fin-force-label.jpg
+.. figure:: ./figures/fin-force-label.jpg
    :alt: network centered as /r/financialindependence
    :align: center
    :target: html/fin-force.html
 
    Plot of the network centered at the subreddit /r/financialindependence
 
-.. figure:: ./media/prog-force-label.jpg
+.. figure:: ./figures/prog-force-label.jpg
    :alt: network centered as /r/programming
    :align: center
    :target: html/prog-force.html
