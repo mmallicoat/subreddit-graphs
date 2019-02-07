@@ -1,5 +1,5 @@
 :date: 2018-11-02
-:modified: 2018-11-12
+:modified: 2019-02-07
 :title: Analyzing Subreddit Networks
 :category: Projects
 :slug: subreddit-networks
@@ -262,13 +262,13 @@ Next Steps
 There is much room for expansion on this sort of analysis. Some
 further avenues to explore are:
 
-    1. A more extensive network could be constructed by crawling the
-    actual posts on each messageboard and collecting hyperlinks given
-    there. Links to webpages outside of reddit.com could also be
-    crawled.
+1. A more extensive network could be constructed by crawling the
+actual posts on each messageboard and collecting hyperlinks given
+there. Links to webpages outside of reddit.com could also be
+crawled.
     
-    2. The number of links between webpages could be tabulated in
-    order to measure the *strength* of each link in the network.
+2. The number of links between webpages could be tabulated in
+order to measure the *strength* of each link in the network.
     
-    3. Instead of an undirected graph, the direction of the links
-    could be incorporated into the model.
+3. Instead of an undirected graph, the direction of the links
+could be incorporated into the model.
