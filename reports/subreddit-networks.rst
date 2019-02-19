@@ -1,6 +1,6 @@
 :date: 2018-11-02
-:modified: 2019-02-07
-:title: Analyzing Subreddit Networks
+:modified: 2019-02-19
+:title: Exploring Subreddit Networks
 :category: Projects
 :slug: subreddit-networks
 
