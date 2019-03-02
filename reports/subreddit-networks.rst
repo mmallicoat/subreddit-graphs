@@ -103,7 +103,7 @@ made a couple plots using ``matplotlib`` to visualize the graphs.
 
 Unfortunately, these were difficult to read and not very useful
 for exploring the networks. To remedy this, I decided to use the
-visualization library ``d3`` (written in JavaScript) to make some
+D3 visualization library (written in JavaScript) to make some
 interactive plots. After we convert the network data into the
 "node-link" JSON format using ``networkx``, we can read it into a
 HTML file containing JavaScript visualizations.
