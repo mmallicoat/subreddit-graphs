@@ -158,11 +158,12 @@ metric, the *graph density*.
 Graph density is defined as the ratio of the number of edges to
 the total possible number of edges between the nodes. The total
 possible would be achieved if every node was connected to every
-other node. For a graph with *n* nodes, this would result in *n
-choose 2* or *n \* (n - 1) / 2* edges. The density thus varies from
-0 (in a graph with no edges) to 1 (in a graph with every possible
-edge). The densities of the financial and programming graphs are
-0.01 and 0.04, respectively, so they have low density.
+other node. For a graph with :math:`n` nodes, this would result
+in :math:`\binom{n}{2}` or :math:`n(n - 1) / 2` edges.
+The density thus varies from 0 (in a graph with no edges) to 1
+(in a graph with every possible edge). The densities of the
+financial and programming graphs are 0.01 and 0.04, respectively,
+so they have low density.
 
 Centrality
 ``````````
@@ -212,10 +213,9 @@ Clustering
 Another metric for describing a network is the *clustering
 coefficient.* Before we define this, first define a *triangle* as
 a sub-graph of three nodes that are all connected to each other.
-Suppose we have a node *u* with degree *n*. The maximum possible
-of triangles including *u* is *n choose 2*, or *n \* (n - 1) / 2*.
+Suppose we have a node :math:`u` with degree :math:`n`. The maximum possible of triangles including :math:`u` is :math:`\binom{n}{2}`.
 The clustering coefficient is the number of existing triangles
-including node *u* divided by this maximum possible number.
+including node :math:`u` divided by this maximum possible number.
 So, this coefficient will always be between 0 and 1. It can be
 interpreted as the tendency of a node to cluster with other nodes.
 Any node that is only connected to a single other node will always have
